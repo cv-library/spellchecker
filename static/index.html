@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Spellcheck</title>
+<link rel="stylesheet" type="text/css" href="/jquery-spellchecker-0.3.0/css/jquery.spellchecker.min.css"></link>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="//cdn.ckeditor.com/4.4.7/basic/ckeditor.js"></script>
+<script src="/jquery-spellchecker-0.3.0/examples/src/examples/english/ckeditor/plugins/jqueryspellchecker/plugin.js"></script>
+<script src="/jquery-spellchecker-0.3.0/js/jquery.spellchecker.min.js"></script>
+</head>
+<body>
+
+Here is a textarea:
+
+<textarea id="editor"></textarea>
+<script>
+CKEDITOR.replace('editor', {
+  contentsCss: '/jquery-spellchecker-0.3.0/css/jquery.spellchecker.min.css',
+  extraPlugins: 'jqueryspellchecker'
+});
+</script>
+</body>
+</html>
