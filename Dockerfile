@@ -8,11 +8,6 @@ RUN apt-get update && apt-get install -y \
 	unzip \
 	wget
 
-RUN 	mkdir -p /app/static \
-	&& wget https://github.com/cv-library/jquery-spellchecker/releases/download/v0.3.0/jquery.spellchecker-0.3.0.zip \
-	&& unzip jquery.spellchecker-0.3.0.zip -d /app/static \
-	&& rm jquery.spellchecker-0.3.0.zip
-
 COPY spellchecker /app/
 COPY static /app/static/
 
