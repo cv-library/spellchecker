@@ -1,1 +1,4 @@
+node_modules
 spellchecker
+static/bundle.js
+static/jquery.spellchecker.css
