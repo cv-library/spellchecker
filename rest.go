@@ -12,6 +12,7 @@ var h = hunspell.Hunspell("/usr/share/hunspell/en_GB.aff", "/usr/share/hunspell/
 
 func main() {
 	fs := http.FileServer(http.Dir("static"))
+	http.HandleFunc("/webservices/php/SpellChecker.php", legacyHandler)
 	http.HandleFunc("/check", checkHandler)
 	http.HandleFunc("/suggest", suggestHandler)
 	http.Handle("/", fs)
@@ -48,6 +49,39 @@ func suggestHandler(w http.ResponseWriter, r *http.Request) {
 	word := r.FormValue("word")
 
 	result := h.Suggest(word)
+
+	b, err := json.Marshal(result)
+	if err != nil {
+		fmt.Println("json error:", err)
+		return
+	}
+
+	w.Write(b)
+}
+
+func legacyHandler(w http.ResponseWriter, r *http.Request) {
+	action := r.FormValue("action")
+	result := map[string]interface{}{}
+
+	switch (action) {
+	case "get_incorrect_words":
+		text := r.FormValue("text[]")
+		typos := []string{}
+		for _, word := range wordRegexp.FindAllString(text, -1) {
+			if !h.Spell(word) {
+				typos = append(typos, word)
+			}
+		}
+		result["outcome"] = "success"
+		result["data"] = [][]string{typos}
+
+	case "get_suggestions":
+		word := r.FormValue("word")
+		result["data"] = h.Suggest(word)
+
+	default:
+		result["outcome"] = "failure"
+	}
 
 	b, err := json.Marshal(result)
 	if err != nil {
