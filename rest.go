@@ -63,7 +63,7 @@ func legacyHandler(w http.ResponseWriter, r *http.Request) {
 	action := r.FormValue("action")
 	var result interface{}
 
-	switch (action) {
+	switch action {
 	case "get_incorrect_words":
 		text := r.FormValue("text[]")
 		typos := []string{}
@@ -75,7 +75,7 @@ func legacyHandler(w http.ResponseWriter, r *http.Request) {
 
 		result = map[string]interface{}{
 			"outcome": "success",
-			"data": [][]string{typos},
+			"data":    [][]string{typos},
 		}
 
 	case "get_suggestions":
@@ -93,6 +93,9 @@ func legacyHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("json error:", err)
 		return
 	}
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
 
 	w.Write(b)
 }
