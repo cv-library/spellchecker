@@ -47,11 +47,7 @@ func checkHandler(w http.ResponseWriter, r *http.Request) {
 func suggestHandler(w http.ResponseWriter, r *http.Request) {
 	word := r.FormValue("word")
 
-	suggestions := h.Suggest(word)
-
-	result := map[string]interface{}{
-		"suggestions": suggestions,
-	}
+	result := h.Suggest(word)
 
 	b, err := json.Marshal(result)
 	if err != nil {
