@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "jquery-spellchecker": "^0.3.1"
+    "jquery-spellchecker": "^0.3.2"
   },
   "browser": {
     "jquery-spellchecker": "./node_modules/jquery-spellchecker/src/js/jquery.spellchecker.js",
