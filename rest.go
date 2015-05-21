@@ -61,7 +61,7 @@ func suggestHandler(w http.ResponseWriter, r *http.Request) {
 
 func legacyHandler(w http.ResponseWriter, r *http.Request) {
 	action := r.FormValue("action")
-	result := map[string]interface{}{}
+	var result interface{}
 
 	switch (action) {
 	case "get_incorrect_words":
@@ -72,15 +72,20 @@ func legacyHandler(w http.ResponseWriter, r *http.Request) {
 				typos = append(typos, word)
 			}
 		}
-		result["outcome"] = "success"
-		result["data"] = [][]string{typos}
+
+		result = map[string]interface{}{
+			"outcome": "success",
+			"data": [][]string{typos},
+		}
 
 	case "get_suggestions":
 		word := r.FormValue("word")
-		result["data"] = h.Suggest(word)
+		result = h.Suggest(word)
 
 	default:
-		result["outcome"] = "failure"
+		result = map[string]interface{}{
+			"outcome": "failure",
+		}
 	}
 
 	b, err := json.Marshal(result)
